@@ -17,6 +17,7 @@ through millions of pages?";
         if line.contains(needle) {
             tags.push(i);
 
+            // No explicit type signature is required as it can be inferred via the definition of ctx.
             let v = Vec::with_capacity(2*ctx_lines + 1);
             ctx.push(v);
         }
@@ -28,6 +29,7 @@ through millions of pages?";
 
     for (i, line) in haystack.lines().enumerate() {
         for (j, tag) in tags.iter().enumerate() {
+            // saturating_sub() is subtraction that returns 0 on integer underflow rather than crashing the program.
             let lower_bound = tag.saturating_sub(ctx_lines);
             let upper_bound = tag + ctx_lines;
 
@@ -40,6 +42,7 @@ through millions of pages?";
     }
 
     for local_ctx in ctx.iter() {
+        // ref line informs the compiler that we want to borrow this value rather than move it.
         for &(i, ref line) in local_ctx.iter() {
             let line_num = i + 1;
             println!("{}: {}", line_num, line);
