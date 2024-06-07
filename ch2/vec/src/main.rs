@@ -10,6 +10,7 @@ It is the same with books.
 What do we seek
 through millions of pages?";
 
+    // Integers that assume the CPU’s “native” width. For example, in 64-bit CPUs, usize and isize will be 64-bits wide.
     let mut tags: Vec<usize> = vec![];
     let mut ctx: Vec<Vec<(usize, String)>> = vec![];
 
