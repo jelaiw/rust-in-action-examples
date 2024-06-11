@@ -13,6 +13,7 @@ What do we seek through millions of pages?";
         let contains_substring = re.find(line);
         match contains_substring {
             // Some(T) is the positive case of an Option, meaning that re.find() was successful: it matches all values.
+            // The underscore (_) matches every value.
             Some(_) => println!("{}", line),
             // None is the negative case of an Option; () can be thought of as a null placeholder value here.
             None => (),
