@@ -49,3 +49,17 @@ target/doc/
 9 directories
 $
 ```
+
+```sh
+$ rustup doc --path
+info: `rust-docs` not installed in toolchain `stable-x86_64-unknown-linux-gnu`
+info: To install, try `rustup component add --toolchain stable-x86_64-unknown-linux-gnu rust-docs`
+error: unable to view documentation which is not installed
+$ rustup component add --toolchain stable-x86_64-unknown-linux-gnu rust-docs
+info: downloading component 'rust-docs'
+info: installing component 'rust-docs'
+ 15.1 MiB /  15.1 MiB (100 %)   3.7 MiB/s in  4s ETA:  0s
+$ rustup doc --path
+/usr/local/rustup/toolchains/stable-x86_64-unknown-linux-gnu/share/doc/rust/html/index.html
+$
+```
