@@ -63,3 +63,21 @@ $ rustup doc --path
 /usr/local/rustup/toolchains/stable-x86_64-unknown-linux-gnu/share/doc/rust/html/index.html
 $
 ```
+
+```sh
+$ cargo run
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running `target/debug/grep-lite`
+error: The following required arguments were not provided:
+    <pattern>
+
+USAGE:
+    grep-lite <pattern>
+
+For more information try --help
+$ cargo run -- picture
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running `target/debug/grep-lite picture`
+dark square is a picture feverishly turned--in search of what?
+$
+```
