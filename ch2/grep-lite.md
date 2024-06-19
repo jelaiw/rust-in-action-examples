@@ -81,3 +81,30 @@ $ cargo run -- picture
 dark square is a picture feverishly turned--in search of what?
 $
 ```
+
+```sh
+$ ./target/debug/grep-lite 
+error: The following required arguments were not provided:
+    <pattern>
+
+USAGE:
+    grep-lite <pattern>
+
+For more information try --help
+$ ./target/debug/grep-lite picture
+dark square is a picture feverishly turned--in search of what?
+$ ./target/debug/grep-lite --help
+grep-lite 0.1
+searches for patterns
+
+USAGE:
+    grep-lite <pattern>
+
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+
+ARGS:
+    <pattern>    The pattern to search for
+$
+```
