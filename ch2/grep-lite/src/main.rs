@@ -28,6 +28,7 @@ fn main() {
 
     for line_ in reader.lines() {
         let line = line_.unwrap();
+        // Note line is a String, but re.find() takes an &str as an argument.
         match re.find(&line) {
             // Some(T) is the positive case of an Option, meaning that re.find() was successful: it matches all values.
             // The underscore (_) matches every value.
