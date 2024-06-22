@@ -1,8 +1,23 @@
 use std::fs::File;
+use std::io;
 use std::io::BufReader;
 use std::io::prelude::*;
 use regex::Regex;
 use clap::{App,Arg};
+
+fn process_lines<T: BufRead + Sized>(reader: T, re: Regex) {
+    for line_ in reader.lines() {
+        let line = line_.unwrap();
+        // Note line is a String, but re.find() takes an &str as an argument.
+        match re.find(&line) {
+            // Some(T) is the positive case of an Option, meaning that re.find() was successful: it matches all values.
+            // The underscore (_) matches every value.
+            Some(_) => println!("{}", line),
+            // None is the negative case of an Option; () can be thought of as a null placeholder value here.
+            None => (),
+        }
+    }
+}
 
 fn main() {
     let args = App::new("grep-lite")
@@ -15,26 +30,23 @@ fn main() {
         .arg(Arg::with_name("input")
             .help("File to search")
             .takes_value(true)
-            .required(true))
+            .required(false))
         .get_matches();
 
     let pattern = args.value_of("pattern").unwrap();
     // unwrap() unwraps a Result, crashing if an error occurs.
     let re = Regex::new(pattern).unwrap();
 
-    let input = args.value_of("input").unwrap();
-    let f = File::open(input).unwrap();
-    let reader = BufReader::new(f);
+    let input = args.value_of("input").unwrap_or("-");
 
-    for line_ in reader.lines() {
-        let line = line_.unwrap();
-        // Note line is a String, but re.find() takes an &str as an argument.
-        match re.find(&line) {
-            // Some(T) is the positive case of an Option, meaning that re.find() was successful: it matches all values.
-            // The underscore (_) matches every value.
-            Some(_) => println!("{}", line),
-            // None is the negative case of an Option; () can be thought of as a null placeholder value here.
-            None => (),
-        }
+    if input == "-" {
+        let stdin = io::stdin();
+        let reader = stdin.lock();
+        process_lines(reader, re);
+    }
+    else {
+        let f = File::open(input).unwrap();
+        let reader = BufReader::new(f);
+        process_lines(reader, re);
     }
 }
