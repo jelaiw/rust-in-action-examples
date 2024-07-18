@@ -1,6 +1,9 @@
 use rand::prelude::*;
 
+// Helper function that triggers sporadic errors.
 fn one_in(denominator: u32) -> bool {
+    // thread_rng() creates a thread-local random number generator;
+    // gen_ratio(n, m) returns a Boolean value with an n/m probability.
     thread_rng().gen_ratio(1, denominator)
 }
 
@@ -24,11 +27,15 @@ impl File {
         f
     }
 
+    // First appearance of Result, where T is an integer of type usize
+    // and E is a String. Using String provides arbitrary error messages.
     fn read(self: &File, save_to: &mut Vec<u8>) -> Result<usize, String> {
         let mut tmp = self.data.clone();
         let read_length = tmp.len();
         save_to.reserve(read_length);
         save_to.append(&mut tmp);
+        // In this code, read() never fails, but we still wrap read_length
+        // in Ok because we’re returning Result.
         Ok(read_length)
     }
 }
@@ -55,6 +62,7 @@ fn main() {
 
     let mut buffer: Vec<u8> = vec![];
 
+    // Unwraps T from Ok, leaving T.
     f4 = open(f4).unwrap();
     let f4_length = f4.read(&mut buffer).unwrap();
     f4 = close(f4).unwrap();
