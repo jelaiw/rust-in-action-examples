@@ -63,6 +63,8 @@ fn main() {
     let mut buffer: Vec<u8> = vec![];
 
     // Unwraps T from Ok, leaving T.
+    // Note ownership of File argument is passed to function,
+    // then rebound (from Result) to f4, which reclaims ownership.
     f4 = open(f4).unwrap();
     let f4_length = f4.read(&mut buffer).unwrap();
     f4 = close(f4).unwrap();
