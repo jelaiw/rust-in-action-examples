@@ -1,3 +1,4 @@
+// Prints this enum to the screen via auto-generated code.
 #[derive(Debug)]
 enum Event {
     Update,
@@ -5,11 +6,16 @@ enum Event {
     Unknown,
 }
 
+// A convenient name for String for use in this crate’s context.
 type Message = String;
 
+// A function for parsing a line and converting it into semi-structured data.
 fn parse_log(line: &str) -> (Event, Message) {
+    // Vec<_> asks Rust to infer the elements’ type.
+    // collect() consumes an iterator from line.splitn() and returns Vec.
     let parts: Vec<_> = line.splitn(2, " ").collect();
 
+    // If line.splitn() doesn’t split log into two parts, returns an error.
     if parts.len() == 1 {
         return (Event::Unknown, String::from(line))
     }
@@ -18,8 +24,10 @@ fn parse_log(line: &str) -> (Event, Message) {
     let rest = String::from(parts[1]);
 
     match event {
+        // When we match a known event, returns structured data.
         "UPDATE" | "update" => (Event::Update, rest),
         "DELETE" | "delete" => (Event::Delete, rest),
+        // If we don’t recognize the event type, returns the whole line.
         _ => (Event::Unknown, String::from(line)),
     }
 }
