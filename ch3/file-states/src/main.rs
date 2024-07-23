@@ -1,3 +1,5 @@
+// https://doc.rust-lang.org/stable/core/cmp/trait.PartialEq.html#derivable
+// https://doc.rust-lang.org/stable/reference/attributes/derive.html
 #[derive(Debug, PartialEq)]
 enum FileState {
     Open,
@@ -58,6 +60,6 @@ fn main() {
     let text = String::from_utf8_lossy(&buffer);
 
     println!("{:?}", f5);
-    println!("{} is {} bytes long", f5.name, f5_length);
+    println!("{} is {} bytes long", &f5.name, f5_length);
     println!("{}", text);
 }
