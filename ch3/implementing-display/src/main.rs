@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 
 use std::fmt;
-use std::fmt::{Display};
+use std::fmt::Display;
 
 #[derive(Debug, PartialEq)]
 enum FileState {
