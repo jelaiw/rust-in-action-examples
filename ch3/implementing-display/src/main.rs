@@ -1,6 +1,9 @@
+// Silences warnings related to FileState::Open not being used.
 #![allow(dead_code)]
 
+// Brings the std::fmt crate into local scope, making use of fmt::Result.
 use std::fmt;
+// Brings Display into local scope, avoiding the need to prefix it as fmt::Display.
 use std::fmt::Display;
 
 #[derive(Debug, PartialEq)]
@@ -19,6 +22,8 @@ struct File {
 impl Display for FileState {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
+            // Sneakily, we can make use of write! to do the grunt work for us.
+            // Strings already implement Display, so there’s little left for us to do.
             FileState::Open => write!(f, "OPEN"),
             FileState::Closed => write!(f, "CLOSED"),
         }
