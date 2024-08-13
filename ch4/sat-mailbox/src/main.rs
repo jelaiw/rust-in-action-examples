@@ -16,7 +16,11 @@ type Message = String;
 struct GroundStation;
 
 impl GroundStation {
+    // &self indicates that GroundStation.send() only requires a read-only reference to self.
+    // The recipient takes a mutable borrow (&mut) of the CubeSat instance, and msg takes
+    // full ownership of its Message instance.
     fn send(&self, to: &mut CubeSat, msg: Message) {
+        // Ownership of the Message instance transfers from msg to messages.push() as a local variable.
         to.mailbox.messages.push(msg);
     }
 }
@@ -39,6 +43,9 @@ fn main() {
 
     println!("t0: {:?}", sat_a);
 
+    // We don’t have a completely ergonomic way to create Message instances yet.
+    // Instead, we’ll take advantage of the String.from() method that converts
+    // &str to String (aka Message).
     base.send(&mut sat_a, Message::from("hello there!"));
 
     println!("t1: {:?}", sat_a);
