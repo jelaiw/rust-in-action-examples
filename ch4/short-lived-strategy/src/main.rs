@@ -19,17 +19,21 @@ struct Message {
 struct GroundStation;
 
 impl Mailbox {
+    // Mailbox.post() requires mutable access to itself and ownership over a Message.
     fn post(&mut self, msg: Message) {
         self.messages.push(msg);
     }
 
+    // Mailbox.deliver() requires a shared reference to a CubeSat to pull out its id field.
     fn deliver(&mut self, recipient: &CubeSat) -> Option<Message> {
         for i in 0..self.messages.len() {
             if self.messages[i].to == recipient.id {
                 let msg = self.messages.remove(i);
+                // When we find a message, returns early with the Message wrapped in Some per the Option type.
                 return Some(msg);
             }
         }
+        // When no messages are found, returns None.
         None
     }
 }
@@ -41,12 +45,14 @@ impl GroundStation {
         }
     }
 
+    // Calls Mailbox.post() to send messages, yielding ownership of a Message.
     fn send(&self, mailbox: &mut Mailbox, msg: Message) {
         mailbox.post(msg);
     }
 }
 
 impl CubeSat {
+    // Calls Mailbox.deliver() to receive messages, gaining ownership of a Message.
     fn recv(&self, mailbox: &mut Mailbox) -> Option<Message> {
         return mailbox.deliver(&self);
     }
