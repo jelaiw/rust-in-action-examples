@@ -21,6 +21,14 @@ enum StatusMessage {
     Ok,
 }
 
+impl Copy for StatusMessage {}
+
+impl Clone for StatusMessage {
+    fn clone(&self) -> Self {
+        *self
+    }
+}
+
 fn check_status(sat_id: CubeSat) -> StatusMessage {
     StatusMessage::Ok
 }
