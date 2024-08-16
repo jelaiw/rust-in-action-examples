@@ -6,8 +6,10 @@ struct CubeSat {
 
 impl Copy for CubeSat { }
 
+// Implementing Copy requires an implementation of Clone.
 impl Clone for CubeSat {
     fn clone(&self) -> Self {
+        // If desired, we can write out the creation of a new object ourselves...
         CubeSat {
             id: self.id,
         }
