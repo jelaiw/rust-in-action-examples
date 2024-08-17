@@ -25,6 +25,7 @@ impl Copy for StatusMessage {}
 
 impl Clone for StatusMessage {
     fn clone(&self) -> Self {
+        // ...but often we can simply dereference self.
         *self
     }
 }
