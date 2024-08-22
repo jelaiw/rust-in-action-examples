@@ -1,5 +1,6 @@
 #![allow(unused_variables, dead_code)]
 
+// Copy implies Clone, so we can use either trait later.
 #[derive(Debug, Clone, Copy)]
 struct CubeSat {
     id: u64,
