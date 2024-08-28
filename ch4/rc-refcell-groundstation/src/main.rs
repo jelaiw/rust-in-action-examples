@@ -15,6 +15,7 @@ fn main() {
 
     println!("base: {:?}", base);
 
+    // Introduces a new scope where base can be mutably borrowed.
     {
         let mut base_2 = base.borrow_mut();
         base_2.radio_freq -= 12.34;

@@ -1,3 +1,5 @@
+value: "<borrowed>" indicates that base is mutably borrowed somewhere else and is no longer generally accessible.
+
 ```sh
 $ cargo run
    Compiling rc-refcell-groundstation v0.1.0 (/workspaces/rust-in-action-examples/ch4/rc-refcell-groundstation)
