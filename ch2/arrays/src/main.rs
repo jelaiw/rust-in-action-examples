@@ -16,6 +16,6 @@ fn main() {
         for i in 0..a.len() {
             sum += a[i];
         }
-        println!("\t{:?} = {}", a, sum);
+        println!("\tΣ{:?} = {}", a, sum);
     }
 }
