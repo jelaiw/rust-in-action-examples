@@ -7,6 +7,9 @@ fn main() {
     
     let exponent_ = bits >> 23;
     println!("sans mantissa: {:032b}", exponent_);
+    // Flip the sign bit to make the mask step more interesting.
+    let exponent_ = exponent_ | 0x100;
+    println!("flip sign bit: {:032b}", exponent_);
     let exponent_ = exponent_ & 0xff;
     println!("sans sign bit: {:032b}", exponent_);
 
