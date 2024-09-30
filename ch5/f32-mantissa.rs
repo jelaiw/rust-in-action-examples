@@ -8,6 +8,7 @@ fn main() {
         let one_at_bit_i = n_bits & mask;
         if one_at_bit_i != 0 {
             let i_ = i as f32;
+            // https://doc.rust-lang.org/std/primitive.f32.html#method.powf
             let weight = 2_f32.powf( i_ - 23.0 );
             mantissa += weight;
         }
