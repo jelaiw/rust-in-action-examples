@@ -1,3 +1,4 @@
+// Similar constants are accessible via the std::f32 module.
 const BIAS: i32 = 127;
 const RADIX: f32 = 2.0;
 
@@ -18,10 +19,14 @@ fn main() {
 fn to_parts(n: f32) -> (u32, u32, u32) {
     let bits = n.to_bits();
 
+    // Strips 31 unwanted bits away by shifting these nowhere, leaving only the sign bit.
     let sign = (bits >> 31) & 1;
+    // Filters out the top bit with a logical AND mask, then strips 23 unwanted bits away.
     let exponent = (bits >> 23) & 0xff;
+    // Retains only the 23 least significant bits via an AND mask.
     let fraction = bits & 0x7fffff;
 
+    // The mantissa part is called a fraction here as it becomes the mantissa once it’s decoded.
     (sign, exponent, fraction)
 }
 
