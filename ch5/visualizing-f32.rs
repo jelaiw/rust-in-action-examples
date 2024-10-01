@@ -31,8 +31,12 @@ fn to_parts(n: f32) -> (u32, u32, u32) {
 }
 
 fn decode(sign: u32, exponent: u32, fraction: u32) -> (f32, f32, f32) {
+    // Converts the sign bit to 1.0 or –1.0).
+    // Parentheses are required around –1.0_f32 to clarify operator precedence as method calls rank higher than a unary minus.
     let signed_1 = (-1.0_f32).powf(sign as f32);
 
+    // exponent must become an i32 in case subtracting the BIAS results in a negative number; then 
+    // it needs to be cast as a f32 so that it can be used for exponentiation.
     let exponent = (exponent as i32) - BIAS;
     let exponent = RADIX.powf(exponent as f32);
 
@@ -50,6 +54,7 @@ fn decode(sign: u32, exponent: u32, fraction: u32) -> (f32, f32, f32) {
     (signed_1, exponent, mantissa)
 }
 
+// Cheats a bit by using f32 values in intermediate steps. Hopefully, it is a forgivable offense.
 fn from_parts(sign: f32, exponent: f32, mantissa: f32) -> f32 {
     sign * exponent * mantissa
 }
