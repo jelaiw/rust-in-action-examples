@@ -1,8 +1,9 @@
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub struct Q7(i8);
+pub struct Q7(i8); // Q7 is a tuple struct.
 
 impl From<f64> for Q7 {
     fn from(value: f64) -> Self {
+        // Coerces any out-of-bounds input to fit.
         if value >= 1.0 {
             Q7(127)
         }
@@ -17,16 +18,22 @@ impl From<f64> for Q7 {
 
 impl From<Q7> for f64 {
     fn from(value: Q7) -> Self {
+        // Equivalent to the iteration approach taken in listing 5.9.
         (value.0 as f64) * 2f64.powf(-7.0)
     }
 }
 
+// By design, it’s safe to convert from f32 to f64. A number that can
+// be represented in 32 bits, it can also be represented in 64 bits.
 impl From<f32> for Q7 {
     fn from(value: f32) -> Self {
         Q7::from(value as f64)
     }
 }
 
+// Generally, converting an f64 into a f32 risks a loss of precision.
+// In this application, that risk doesn’t apply as we only have numbers
+// between –1 and 1 to convert from.
 impl From<Q7> for f32 {
     fn from(value: Q7) -> Self {
         f64::from(value) as f32
