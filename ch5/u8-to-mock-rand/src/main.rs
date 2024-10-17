@@ -11,6 +11,12 @@ fn mock_rand(n: u8) -> f32 {
     2.0 * ( m - 0.5 )
 }
 
+/*
+fn mock_rand(n: u8) -> f32 {
+    (n as f32) / 255.0
+}
+*/
+
 fn main() {
     println!("max of input range: {:08b} -> {:?}", 0xff, mock_rand(0xff));
     println!("mid of input range: {:08b} -> {:?}", 0x7f, mock_rand(0x7f));
