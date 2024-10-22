@@ -1,9 +1,10 @@
 struct CPU {
-    current_operation: u16,
+    current_operation: u16, // All CHIP-8 opcodes are u16 values.
     registers: [u8; 2],
 }
 
 impl CPU {
+    // read_opcode() becomes more complex when we introduce reading from memory.
     fn read_opcode(&self) -> u16 {
         self.current_operation
     }
@@ -16,6 +17,8 @@ impl CPU {
         let y: u8 = ((opcode & 0x00f0) >> 4) as u8;
         let d: u8 = (opcode & 0x000f) as u8;
 
+        // Dispatches execution to the hardware circuit responsible for performing it.
+        // A full emulator contains several dozen operations.
         match (c, x, y, d) {
             (0x8, _, _, 0x4) => self.add_xy(x, y),
             _ => todo!("{:04x}", opcode),
@@ -29,12 +32,12 @@ impl CPU {
 
 fn main() {
     let mut cpu = CPU {
-        current_operation: 0,
+        current_operation: 0, // Initializes with a no-op (do nothing).
         registers: [0; 2],
     };
 
     cpu.current_operation = 0x8014;
-    cpu.registers[0] = 5;
+    cpu.registers[0] = 5; // Registers can only hold u8 values.
     cpu.registers[1] = 10;
 
     cpu.run();
