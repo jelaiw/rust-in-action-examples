@@ -21,6 +21,7 @@ impl CPU {
     fn run(&mut self) {
         loop {
             let opcode = self.read_opcode();
+            // Increments position_in_memory to point to the next instruction.
             self.position_in_memory += 2;
 
             let c = ((opcode & 0xF000) >> 12) as u8;
@@ -29,6 +30,7 @@ impl CPU {
             let d = ((opcode & 0x000F) >> 0) as u8;
         
             match (c, x, y, d) {
+                // Short-circuits the function to terminate execution when the opcode 0x0000 is encountered.
                 (0, 0, 0, 0) => { return; },
                 (0x8, _, _, 0x4) => self.add_xy(x, y),
                 _ => todo!("opcode {:04x}", opcode),
@@ -67,9 +69,9 @@ fn main() {
     cpu.registers[3] = 10;
 
     let mem = &mut cpu.memory;
-    mem[0] = 0x80; mem[1] = 0x14;
-    mem[2] = 0x80; mem[3] = 0x24;
-    mem[4] = 0x80; mem[5] = 0x34;
+    mem[0] = 0x80; mem[1] = 0x14; // Loads opcode 0x8014, which adds register 1 to register 0.
+    mem[2] = 0x80; mem[3] = 0x24; // Loads opcode 0x8024, which adds register 2 to register 0.
+    mem[4] = 0x80; mem[5] = 0x34; // Loads opcode 0x8034, which adds register 3 to register 0.
 
     cpu.run();
 
