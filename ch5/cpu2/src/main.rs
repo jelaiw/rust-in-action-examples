@@ -1,5 +1,7 @@
 struct CPU {
     registers: [u8; 16],
+    // Using usize rather that u16 diverges from the original spec, but
+    // we’ll use usize as Rust allows these to be used for indexing.
     position_in_memory: usize,
     memory: [u8; 0x1000],
 }
@@ -10,6 +12,9 @@ impl CPU {
         let op_byte1 = self.memory[p] as u16;
         let op_byte2 = self.memory[p + 1] as u16;
 
+        // To create a u16 opcode, we combine two values from memory with
+        // the logical OR operation. These need to be cast as u16 to start
+        // with; otherwise, the left shift sets all of the bits to 0.
         op_byte1 << 8 | op_byte2
     }
 
@@ -35,6 +40,8 @@ impl CPU {
         let arg1 = self.registers[x as usize];
         let arg2 = self.registers[y as usize];
 
+        // The overflowing_add() method for u8 returns (u8, bool).
+        // The bool is true when overflow is detected.
         let (val, overflow) = arg1.overflowing_add(arg2);
         self.registers[x as usize] = val;
 
