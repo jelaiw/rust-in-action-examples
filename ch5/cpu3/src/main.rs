@@ -47,8 +47,15 @@ impl CPU {
             panic!("Stack overflow!");
         }
 
+        // Adds the current position_in_memory to the stack. This memory address
+        // is two bytes higher than the calling location as it is incremented
+        // within the body of the run() method.
         stack[sp] = self.position_in_memory as u16;
+        // Increments self.stack_pointer to prevent self.position_in_memory from
+        // being overwritten until it needs to be accessed again
+        // in a subsequent return.
         self.stack_pointer += 1;
+        // Modifies self.position_in_memory to effect jumping to that address.
         self.position_in_memory = addr as usize;
     }
 
@@ -58,6 +65,7 @@ impl CPU {
         }
 
         self.stack_pointer -= 1;
+        // Jumps to the position in memory where an earlier call was made.
         let call_addr = self.stack[self.stack_pointer];
         self.position_in_memory = call_addr as usize;
     }
