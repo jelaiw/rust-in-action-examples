@@ -6,5 +6,7 @@ fn main() {
     let b = &B;
     let c = &C;
 
+    // The {:p} syntax asks Rust to format the variable as a pointer and prints
+    // the memory address that the value points to.
     println!("a: {}, b: {:p}, c: {:p}", a, b, c);
 }
