@@ -2,7 +2,9 @@ struct CPU {
     registers: [u8; 16],
     position_in_memory: usize,
     memory: [u8; 4096],
+    // The stack’s maximum height is 16. After 16 nested function calls, the program encounters a stack overflow.
     stack: [u16; 16],
+    // Giving the stack_pointer type usize makes it easier to index values within the stack.
     stack_pointer: usize,
 }
 
