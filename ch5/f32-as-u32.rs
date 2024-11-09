@@ -10,6 +10,7 @@ fn main() {
     // {:032b} means to format as a binary via the std::fmt::Binary trait with 32 zeroes padded on the left.
     println!("{:032b}", frankentype);
 
+    // https://doc.rust-lang.org/std/mem/fn.transmute.html
     let b: f32 = unsafe {
         std::mem::transmute(frankentype)
     };
