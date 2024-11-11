@@ -4,7 +4,12 @@ static B: [u8; 10] = [99, 97, 114, 114, 121, 116, 111, 119, 101, 108];
 static C: [u8; 11] = [116, 104, 97, 110, 107, 115, 102, 105, 115, 104, 0];
 
 fn main() {
+    // usize is the memory address size for the CPU the code is compiled for.
+    // That CPU is called the compile target.
     let a: usize = 42;
+    // &[u8; 10] reads as “a reference to an array of 10 bytes.”
+    // The array is located in static memory, and the reference itself
+    // (a pointer of width usize bytes) is placed on the stack.
     let b: &[u8; 10] = &B;
 
     println!("a (an unsigned integer):");
