@@ -11,6 +11,7 @@ fn main() {
     // The array is located in static memory, and the reference itself
     // (a pointer of width usize bytes) is placed on the stack.
     let b: &[u8; 10] = &B;
+    let c: Box<[u8]> = Box::new(C);
 
     println!("a (an unsigned integer):");
     println!("  location: {:p}", &a);
@@ -28,5 +29,17 @@ fn main() {
     println!("  location: {:p}", &B);
     println!("  size: {:?} bytes", size_of::<[u8; 10]>());
     println!("  value: {:?}", B);
+    println!();
+
+    println!("c (a 'box' for C):");
+    println!("  location: {:p}", &c);
+    println!("  size: {:?} bytes", size_of::<Box<[u8]>>());
+    println!("  points to: {:p}", c);
+    println!();
+
+    println!("C (an array of 11 bytes):");
+    println!("  location: {:p}", &C);
+    println!("  size: {:?} bytes", size_of::<[u8; 11]>());
+    println!("  value: {:?}", C);
     println!();
 }
