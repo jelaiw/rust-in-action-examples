@@ -11,6 +11,8 @@ fn main() {
     // The array is located in static memory, and the reference itself
     // (a pointer of width usize bytes) is placed on the stack.
     let b: &[u8; 10] = &B;
+    // The Box<[u8]> type is a boxed byte slice. When we place values inside
+    // a box, ownership of the value moves to the owner of the box.
     let c: Box<[u8]> = Box::new(C);
 
     println!("a (an unsigned integer):");
