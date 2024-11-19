@@ -37,6 +37,7 @@ fn main() {
     println!("  location: {:p}", &c);
     println!("  size: {:?} bytes", size_of::<Box<[u8]>>());
     println!("  points to: {:p}", c);
+    println!("  value: {:?}", c);
     println!();
 
     println!("C (an array of 11 bytes):");
