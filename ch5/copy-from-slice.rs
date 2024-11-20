@@ -9,5 +9,6 @@ fn main() {
     ];
 
     mem[0x100..0x106].copy_from_slice(&add_twice);
+    // Prints [128, 20, 128, 20, 0, 238].
     println!("{:?}", &mem[0x100..0x106]);
 }
