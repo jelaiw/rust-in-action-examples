@@ -8,6 +8,7 @@ fn main() {
         0x00, 0xEE,
     ];
 
+    // https://doc.rust-lang.org/std/primitive.slice.html#method.copy_from_slice.
     mem[0x100..0x106].copy_from_slice(&add_twice);
     // Prints [128, 20, 128, 20, 0, 238].
     println!("{:?}", &mem[0x100..0x106]);
