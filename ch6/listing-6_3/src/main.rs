@@ -23,6 +23,7 @@ fn main() {
         // But *const T can be cast to *mut T, leading to this double cast syntax.
         let b_ptr = &B as *const u8 as *mut u8;
         // String::from_raw_parts() accepts a pointer (*mut T) to an array of bytes, a size, and a capacity parameter.
+        // https://doc.rust-lang.org/std/string/struct.String.html#method.from_raw_parts
         b = String::from_raw_parts(b_ptr, 10, 10);
 
         // Converts a *const u8 to a *const i8, aliased to c_char.
