@@ -31,6 +31,8 @@ fn main() {
         let c_ptr = &C as *const u8 as *const c_char;
         // Conceptually, CStr::from_ptr() takes responsibility for reading the pointer until it reaches 0;
         // then it generates Cow<str> from the result.
+        // https://doc.rust-lang.org/std/ffi/struct.CStr.html#method.from_ptr
+        // https://doc.rust-lang.org/std/ffi/struct.CStr.html#method.to_string_lossy
         c = CStr::from_ptr(c_ptr).to_string_lossy();
     }
 
