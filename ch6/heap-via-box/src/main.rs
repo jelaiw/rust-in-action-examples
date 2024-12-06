@@ -3,6 +3,7 @@ use std::mem::drop;
 
 fn main() {
     // Allocates values on the heap.
+    // Something that has been boxed lives on the heap, with a pointer to it on the stack.
     let a = Box::new(1);
     let b = Box::new(1);
     let c = Box::new(1);
