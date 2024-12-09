@@ -1,15 +1,20 @@
+// std::alloc provides facilities for controlling memory allocation.
 use std::alloc::{GlobalAlloc, Layout, System};
-
+// std::time provides access to the system’s clock.
 use std::time::Instant;
 
+// #[global_allocator] marks the following value (ALLOCATOR) as satisfying the GlobalAlloc trait.
 #[global_allocator]
 static ALLOCATOR: ReportingAllocator = ReportingAllocator;
 
+// Prints the time taken for each allocation to STDOUT as the program runs.
+// This provides a fairly accurate indication of the time taken for dynamic memory allocation.
 struct ReportingAllocator;
 
 unsafe impl GlobalAlloc for ReportingAllocator {
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
         let start = Instant::now();
+        // Defers the actual memory allocation to the system’s default memory allocator.
         let ptr = System.alloc(layout);
         let end = Instant::now();
         let time_taken = end - start;
