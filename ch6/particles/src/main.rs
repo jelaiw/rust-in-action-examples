@@ -11,7 +11,7 @@ use graphics::math::Vec2d;
 #[global_allocator]
 static ALLOCATOR: ReportingAllocator = ReportingAllocator;
 
-// Prints the time taken for each allocation to STDOUT as the program runs.
+// Prints the time taken for each allocation to STDERR as the program runs.
 // This provides a fairly accurate indication of the time taken for dynamic memory allocation.
 struct ReportingAllocator;
 
@@ -23,7 +23,7 @@ unsafe impl GlobalAlloc for ReportingAllocator {
         let end = Instant::now();
         let time_taken = end - start;
         let bytes_requested = layout.size();
-
+        // https://doc.rust-lang.org/std/macro.eprintln.html
         eprintln!("{}\t{}", bytes_requested, time_taken.as_nanos());
         ptr
     }
