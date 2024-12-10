@@ -4,5 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+# Provides vector mathematics, which is important to simulate movement.
 piston2d-graphics = "0.39"
+# Provides random number generators and associated functionality.
 rand = "0.8"
