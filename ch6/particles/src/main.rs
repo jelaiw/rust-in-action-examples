@@ -2,9 +2,9 @@
 use std::alloc::{GlobalAlloc, Layout, System};
 // std::time provides access to the system’s clock.
 use std::time::Instant;
-
+// rand provides random number generators and related functionality.
 use rand::prelude::ThreadRng;
-
+// graphics::math::Vec2d provides mathematical operations and conversion functionality for 2D vectors.
 use graphics::math::Vec2d;
 
 // #[global_allocator] marks the following value (ALLOCATOR) as satisfying the GlobalAlloc trait.
