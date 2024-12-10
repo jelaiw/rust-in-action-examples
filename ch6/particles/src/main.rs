@@ -3,6 +3,10 @@ use std::alloc::{GlobalAlloc, Layout, System};
 // std::time provides access to the system’s clock.
 use std::time::Instant;
 
+use rand::prelude::ThreadRng;
+
+use graphics::math::Vec2d;
+
 // #[global_allocator] marks the following value (ALLOCATOR) as satisfying the GlobalAlloc trait.
 #[global_allocator]
 static ALLOCATOR: ReportingAllocator = ReportingAllocator;
@@ -27,6 +31,23 @@ unsafe impl GlobalAlloc for ReportingAllocator {
     unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout) {
         System.dealloc(ptr, layout);
     }
+}
+
+struct World {
+    current_turn: u64,
+    particles: Vec<Box<Particle>>,
+    height: f64,
+    width: f64,
+    rng: ThreadRng,
+}
+
+struct Particle {
+    height: f64,
+    width: f64,
+    position: Vec2d<f64>,
+    velocity: Vec2d<f64>,
+    acceleration: Vec2d<f64>,
+    color: [f32; 4],
 }
 
 fn main() {
