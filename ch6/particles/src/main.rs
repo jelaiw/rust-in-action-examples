@@ -33,6 +33,7 @@ unsafe impl GlobalAlloc for ReportingAllocator {
     }
 }
 
+// Contains the data that is useful for the lifetime of the program.
 struct World {
     current_turn: u64,
     particles: Vec<Box<Particle>>,
