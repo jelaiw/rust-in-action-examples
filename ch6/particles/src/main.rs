@@ -43,6 +43,26 @@ struct World {
     rng: ThreadRng,
 }
 
+impl World {
+    fn new(width: f64, height: f64) -> World {
+        World {
+            current_turn: 0,
+            particles: Vec::<Box<Particle>>::new(),
+            height: height,
+            width: width,
+            rng: thread_rng(),
+        }
+    }
+
+    fn add_shapes(&mut self, n: i32) {
+        for _ in 0..n.abs() {
+            let particle = Particle::new(&self);
+            let boxed_particle = Box::new(particle);
+            self.particles.push(boxed_particle);
+        }
+    }
+}
+
 struct Particle {
     height: f64,
     width: f64,
