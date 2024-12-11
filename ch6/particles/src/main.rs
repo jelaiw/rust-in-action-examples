@@ -55,27 +55,35 @@ struct Particle {
 impl Particle {
     fn new(world: &World) -> Particle {
         let mut rng = thread_rng();
+        // Starts at a random position along the bottom of the window.
         let x = rng.gen_range(0.0..=world.width);
         let y = world.height;
+        // Rises vertically over time.
         let x_velocity = 0.0;
         let y_velocity = rng.gen_range(-2.0..0.0);
+        // Increases the speed of the rise over time.
         let x_acceleration = 0.0;
         let y_acceleration = rng.gen_range(0.0..0.15);
 
         Particle {
             height: 4.0,
             width: 4.0,
+            // into() converts the arrays of type [f64; 2] into Vec2d.
             position: [x, y].into(),
             velocity: [x_velocity, y_velocity].into(),
             acceleration: [x_acceleration, y_acceleration].into(),
+            // Inserts a fully saturated white that has a tiny amount of transparency.
             color: [1.0, 1.0, 1.0, 0.99],
         }
     }
 
     fn update(&mut self) {
         self.velocity = add(self.velocity, self.acceleration);
+        // Moves the particle to its next position.
         self.position = add(self.position, self.velocity);
+        // Slows down the particle’s rate of increase as it travels across the screen.
         self.acceleration = mul_scalar(self.acceleration, 0.7);
+        // Makes the particle more transparent over time.
         self.color[3] *= 0.995;
     }
 }
