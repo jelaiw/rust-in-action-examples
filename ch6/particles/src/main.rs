@@ -47,6 +47,7 @@ impl World {
     fn new(width: f64, height: f64) -> World {
         World {
             current_turn: 0,
+            // Uses Box<Particle> rather than Particle to incur an extra memory allocation when every particle is created.
             particles: Vec::<Box<Particle>>::new(),
             height: height,
             width: width,
