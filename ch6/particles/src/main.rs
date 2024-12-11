@@ -57,8 +57,11 @@ impl World {
 
     fn add_shapes(&mut self, n: i32) {
         for _ in 0..n.abs() {
+            // Creates a Particle as a local variable on the stack.
             let particle = Particle::new(&self);
+            // Takes ownership of particle, moving its data to the heap, and creates a reference to that data on the stack.
             let boxed_particle = Box::new(particle);
+            // Pushes the reference into self.shapes.
             self.particles.push(boxed_particle);
         }
     }
