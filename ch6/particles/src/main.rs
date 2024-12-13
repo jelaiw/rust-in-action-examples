@@ -69,8 +69,11 @@ impl World {
     fn remove_shapes(&mut self, n: i32) {
         for _ in 0..n.abs() {
             let mut to_delete = None;
+            // particle_iter is split into its own variable to more easily fit on the page.
             let particle_iter = self.particles.iter().enumerate();
 
+            // For n iterations, removes the first particle that’s invisible.
+            // If there are no invisible particles, then removes the oldest.
             for (i, particle) in particle_iter {
                 if particle.color[3] < 0.02 {
                     to_delete = Some(i);
@@ -88,6 +91,7 @@ impl World {
     }
 
     fn update(&mut self) {
+        // Returns a random integer between –3 and 3, inclusive.
         let n = self.rng.gen_range(-3..=3);
 
         if n > 0 {
