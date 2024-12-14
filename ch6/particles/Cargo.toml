@@ -6,5 +6,6 @@ edition = "2021"
 [dependencies]
 # Provides vector mathematics, which is important to simulate movement.
 piston2d-graphics = "0.39"
+piston_window = "0.117"
 # Provides random number generators and associated functionality.
 rand = "0.8"
