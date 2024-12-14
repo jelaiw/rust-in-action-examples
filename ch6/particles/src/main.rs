@@ -2,11 +2,13 @@
 use std::alloc::{GlobalAlloc, Layout, System};
 // std::time provides access to the system’s clock.
 use std::time::Instant;
+use graphics::rectangle;
 // rand provides random number generators and related functionality.
 use rand::prelude::ThreadRng;
 use rand::{thread_rng, Rng};
 // graphics::math::Vec2d provides mathematical operations and conversion functionality for 2D vectors.
 use graphics::math::{Vec2d, add, mul_scalar};
+use piston_window::{PistonWindow, WindowSettings, clear};
 
 // #[global_allocator] marks the following value (ALLOCATOR) as satisfying the GlobalAlloc trait.
 #[global_allocator]
@@ -155,4 +157,25 @@ impl Particle {
 }
 
 fn main() {
+    let (width, height) = (1280.0, 960.0);
+    let mut window: PistonWindow = WindowSettings::new("particles", [width, height])
+        .exit_on_esc(true)
+        .build()
+        .expect("Could not create a window.");
+
+    let mut world = World::new(width, height);
+    world.add_shapes(1000);
+
+    while let Some(event) = window.next() {
+        world.update();
+
+        window.draw_2d(&event, |ctx, renderer, _device| {
+            clear([0.15, 0.17, 0.17, 0.9], renderer);
+
+            for s in &mut world.particles {
+                let size = [s.position[0], s.position[1], s.width, s.height];
+                rectangle(s.color, size, ctx.transform, renderer);
+            }
+        });
+    }
 }
