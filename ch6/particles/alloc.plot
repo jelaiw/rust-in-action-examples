@@ -12,6 +12,9 @@ set ylabel "Allocation duration (ns)"
 set logscale y
 set yrange [10 to 10000]
 set ytics nomirror out
+
+set terminal png
+set output 'plot.png'
  
 plot "alloc.tsv" with points \
     pointtype 6 \
