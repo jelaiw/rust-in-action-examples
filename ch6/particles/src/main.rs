@@ -8,6 +8,7 @@ use rand::prelude::ThreadRng;
 use rand::{thread_rng, Rng};
 // graphics::math::Vec2d provides mathematical operations and conversion functionality for 2D vectors.
 use graphics::math::{Vec2d, add, mul_scalar};
+// piston_window provides the tools to create a GUI program and draws shapes to it.
 use piston_window::{PistonWindow, WindowSettings, clear};
 
 // #[global_allocator] marks the following value (ALLOCATOR) as satisfying the GlobalAlloc trait.
