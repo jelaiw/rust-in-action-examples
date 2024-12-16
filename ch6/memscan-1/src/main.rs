@@ -1,7 +1,8 @@
 fn main() {
     let mut n_nonzero = 0;
 
-    for i in 0..10000 {
+    // Starts at 1 rather than 0 to avoid a NULL pointer exception.
+    for i in 1..10000 {
         // Converts i to a *const T, a raw pointer of type u8 to inspect raw memory addresses.
         // We treat every address as a unit, ignoring the fact that most values span multiple bytes.
         let ptr = i as *const u8;
