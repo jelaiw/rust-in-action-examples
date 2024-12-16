@@ -1,4 +1,8 @@
 // Brings manual drop() into local scope.
+// std::mem::drop brings the function drop() into local scope.
+// drop() deletes objects before their scope ends.
+// Types that implement Drop have a drop() method, but explicitly calling it is illegal within user code.
+// std::mem::drop is an escape hatch from that rule.
 use std::mem::drop;
 
 fn main() {
