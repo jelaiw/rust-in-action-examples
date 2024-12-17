@@ -11,7 +11,7 @@ fn main() {
     let local_str = "a";
     let local_int = 123;
     let boxed_int = Box::new(789);
-    let boxed_str = Box::new('b');
+    let boxed_str = Box::new('b'); // Note, this is actually a boxed char.
     let fn_int = noop();
 
     println!("GLOBAL:    {:p}", &GLOBAL as *const i32);
