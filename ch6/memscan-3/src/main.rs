@@ -1,6 +1,8 @@
+// Creates a global static, which is a global variable in Rust programs.
 static GLOBAL: i32 = 1000;
 
 fn noop() -> *const i32 {
+    // Creates a local variable within noop() so that something outside of main() has a memory address.
     let noop_local = 12345;
     &noop_local as *const i32
 }
