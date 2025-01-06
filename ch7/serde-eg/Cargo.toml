@@ -5,5 +5,6 @@ edition = "2021"
 
 [dependencies]
 serde = "1"
+serde_cbor = "0.8"
 serde_derive = "1"
 serde_json = "1"

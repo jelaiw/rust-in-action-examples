@@ -3,6 +3,12 @@
 version = 4
 
 [[package]]
+name = "byteorder"
+version = "1.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1fd0f2584146f6f2ef48085050886acf353beff7305ebd1ae69500e27c67f64b"
+
+[[package]]
 name = "itoa"
 version = "1.0.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -52,8 +58,19 @@ name = "serde-eg"
 version = "0.1.0"
 dependencies = [
  "serde",
+ "serde_cbor",
  "serde_derive",
  "serde_json",
+]
+
+[[package]]
+name = "serde_cbor"
+version = "0.8.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b4ad7872ff6e6c2a9221f4c1abe681e7eefc56ca5b3e87196afbfc717d141dc8"
+dependencies = [
+ "byteorder",
+ "serde",
 ]
 
 [[package]]
