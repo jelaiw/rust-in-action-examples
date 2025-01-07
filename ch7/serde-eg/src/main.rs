@@ -1,8 +1,11 @@
 use serde_derive::Serialize;
+// These functions are renamed to shorten lines where used.
 use serde_json::to_string as to_json;
 use serde_cbor::to_vec as to_cbor;
 use bincode::serialize as to_bincode;
 
+// Instructs the serde_derive crate to write the necessary code to carry out
+// the conversion from an in-memory City to on-disk City.
 #[derive(Serialize)]
 struct City {
     name: String,
