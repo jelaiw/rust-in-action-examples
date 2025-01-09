@@ -15,6 +15,7 @@ fn main() {
 
 fn main() -> std::io::Result<()> {
     let mut buffer: Vec<u8> = vec![];
+    // https://doc.rust-lang.org/std/result/#the-question-mark-operator-
     INPUT.read_to_end(&mut buffer)?;
 
     let mut position_in_input = 0;
