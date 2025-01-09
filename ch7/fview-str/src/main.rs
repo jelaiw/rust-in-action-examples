@@ -19,6 +19,7 @@ fn main() -> std::io::Result<()> {
     INPUT.read_to_end(&mut buffer)?;
 
     let mut position_in_input = 0;
+    // https://doc.rust-lang.org/std/vec/struct.Vec.html#method.chunks
     for line in buffer.chunks(BYTES_PER_LINE) {
         // Writes the current position with up to 8 left-padded zeros.
         print!("[0x{:08x}] ", position_in_input);
