@@ -2,7 +2,8 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::env;
 
-const BYTES_PER_LINE: usize = 16;
+// Changing this constant changes the program’s output.
+const BYTES_PER_LINE: usize = 8;
 
 fn main() {
     let arg1 = env::args().nth(1);
