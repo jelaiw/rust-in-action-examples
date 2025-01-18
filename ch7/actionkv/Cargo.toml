@@ -4,5 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+# Extends Rust types with extra traits to write those to disk, then reads those back into a program in a repeatable, easy-to-use way.
 byteorder = "1.2"
+# Provides the checksum functionality that we want to include.
 crc = "1.7"
