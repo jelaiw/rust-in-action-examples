@@ -13,3 +13,9 @@ crc = "1.7"
 [lib]
 name = "libactionkv"
 path = "src/lib.rs"
+
+# A [[bin]] section, of which there can be many, defines an executable file that’s built from this crate.
+# The double square bracket syntax is required because it unambiguously describes bin as having one or more elements.
+[[bin]]
+name = "akv_mem"
+path = "src/akv_mem.rs"
