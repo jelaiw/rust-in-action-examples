@@ -1,3 +1,4 @@
+// The cfg attribute allows Windows users to see the correct file extension in their help documentation.
 #[cfg(target_os = "windows")]
 const USAGE: &str = "
 Usage:
