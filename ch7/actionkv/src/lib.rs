@@ -3,9 +3,14 @@ use std::collections::HashMap;
 use std::fs::{File, OpenOptions};
 use std::path::Path;
 
+// This code processes lots of Vec<u8> data. Because that’s used in the
+// same way as String tends to be used, ByteString is a useful alias.
 type ByteString = Vec<u8>;
+// ByteStr is to &str what ByteString is to Vec<u8>.
 type ByteStr = [u8];
 
+// Instructs the compiler to generate serialized code to enable writing
+// KeyValuePair data to disk. 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct KeyValuePair {
     pub key: ByteString,
@@ -15,6 +20,7 @@ pub struct KeyValuePair {
 #[derive(Debug)]
 pub struct ActionKV {
     f: File,
+    // Maintains a mapping between keys and file locations.
     pub index: HashMap<ByteString, u64>,
 }
 
