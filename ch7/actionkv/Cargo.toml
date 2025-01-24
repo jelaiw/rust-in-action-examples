@@ -8,6 +8,8 @@ edition = "2021"
 byteorder = "1.2"
 # Provides the checksum functionality that we want to include.
 crc = "1.7"
+serde = "1"
+serde_derive = "1"
 
 # This section of Cargo.toml lets you define a name for the library you’re building. Note that a crate can only have one library.
 [lib]
