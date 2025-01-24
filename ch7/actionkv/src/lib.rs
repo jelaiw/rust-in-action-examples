@@ -1,6 +1,7 @@
 use serde_derive::{Serialize, Deserialize};
 use std::collections::HashMap;
 use std::fs::{File, OpenOptions};
+use std::io::{BufReader, Seek, Read};
 use std::path::Path;
 
 // This code processes lots of Vec<u8> data. Because that’s used in the
@@ -38,5 +39,37 @@ impl ActionKV {
             f,
             index,
         })
+    }
+
+    pub fn process_record<R: Read>(f: &mut R) -> std::io::Result<KeyValuePair> {
+        Ok(KeyValuePair {
+            key: vec![],
+            value: vec![],
+        })       
+    }
+
+    pub fn load(&mut self) -> std::io::Result<()> {
+        let mut f = BufReader::new(&mut self.f);
+
+        loop {
+            let position = f.seek(std::io::SeekFrom::Current(0))?;
+            let maybe_kv = ActionKV::process_record(&mut f);
+
+            let kv = match maybe_kv {
+                Ok(kv) => kv,
+                Err(err) => {
+                    match err.kind() {
+                        std::io::ErrorKind::UnexpectedEof => {
+                            break;
+                        },
+                        _ => return Err(err),
+                    }
+                }
+            };
+
+            self.index.insert(kv.key, position);
+        }
+
+        Ok(())
     }
 }
