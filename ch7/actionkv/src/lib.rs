@@ -48,17 +48,22 @@ impl ActionKV {
         })       
     }
 
+    // ActionKV::load() populates the index of the ActionKV struct, mapping keys to file positions.
     pub fn load(&mut self) -> std::io::Result<()> {
         let mut f = BufReader::new(&mut self.f);
 
         loop {
+            // File::seek() returns the number of bytes from the start of the file. This becomes the value of the index.
             let position = f.seek(std::io::SeekFrom::Current(0))?;
+            // ActionKV::process_record() reads a record in the file at its current position.
             let maybe_kv = ActionKV::process_record(&mut f);
 
             let kv = match maybe_kv {
                 Ok(kv) => kv,
                 Err(err) => {
                     match err.kind() {
+                        // Unexpected is relative. The application might not have expected to encounter the end of
+                        // the file, but we expect files to be finite, so we’ll deal with that eventuality.
                         std::io::ErrorKind::UnexpectedEof => {
                             break;
                         },
