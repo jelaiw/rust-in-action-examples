@@ -43,6 +43,7 @@ impl ActionKV {
         })
     }
 
+    // Assumes that f is already at the right place in the file.
     pub fn process_record<R: Read>(f: &mut R) -> std::io::Result<KeyValuePair> {
         let saved_checksum = f.read_u32::<LittleEndian>()?;
         let key_len = f.read_u32::<LittleEndian>()?;
@@ -52,6 +53,8 @@ impl ActionKV {
         let mut data = ByteString::with_capacity(data_len as usize);
 
         {
+            // f.by_ref() is required because .take(n) creates a new Read instance. Using
+            // a reference within this block allows us to sidestep ownership issues.
             f.by_ref().take(data_len as u64).read_to_end(&mut data)?;
         }
         debug_assert_eq!(data.len(), data_len as usize);
