@@ -1,8 +1,10 @@
+use byteorder::{LittleEndian, ReadBytesExt};
 use serde_derive::{Serialize, Deserialize};
 use std::collections::HashMap;
 use std::fs::{File, OpenOptions};
 use std::io::{BufReader, Seek, Read};
 use std::path::Path;
+use crc::crc32;
 
 // This code processes lots of Vec<u8> data. Because that’s used in the
 // same way as String tends to be used, ByteString is a useful alias.
@@ -42,9 +44,29 @@ impl ActionKV {
     }
 
     pub fn process_record<R: Read>(f: &mut R) -> std::io::Result<KeyValuePair> {
+        let saved_checksum = f.read_u32::<LittleEndian>()?;
+        let key_len = f.read_u32::<LittleEndian>()?;
+        let value_len = f.read_u32::<LittleEndian>()?;
+        let data_len = key_len + value_len;
+
+        let mut data = ByteString::with_capacity(data_len as usize);
+
+        {
+            f.by_ref().take(data_len as u64).read_to_end(&mut data)?;
+        }
+        debug_assert_eq!(data.len(), data_len as usize);
+
+        let checksum = crc32::checksum_ieee(&data);
+        if checksum != saved_checksum {
+            panic!("data corruption encountered ({:08x} != {:08x})", checksum, saved_checksum);
+        }
+
+        let val = data.split_off(key_len as usize);
+        let key = data;
+
         Ok(KeyValuePair {
-            key: vec![],
-            value: vec![],
+            key: key,
+            value: val,
         })       
     }
 
