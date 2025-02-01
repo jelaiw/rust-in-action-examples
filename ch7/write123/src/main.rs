@@ -1,5 +1,10 @@
+// Used as a type argument for a program’s various read_*() and write_*() methods.
 use byteorder::LittleEndian;
+// Traits that provide read_*() and write_*().
 use byteorder::{ReadBytesExt, WriteBytesExt};
+// As files support the ability to seek(), moving backward and forward to different
+// positions, something is necessary to enable a Vec<T> to mock being a file.
+// io::Cursor plays that role, enabling an in-memory Vec<T> to be file-like.
 use std::io::Cursor;
 
 fn write_numbers_to_file() -> (u32, i8, f64) {
@@ -9,9 +14,13 @@ fn write_numbers_to_file() -> (u32, i8, f64) {
     let two: i8 = 2;
     let three: f64 = 3.0;
 
+    // Writes values to disk. These methods return io::Result, which we swallow here
+    // as these won’t fail unless something is seriously wrong with the computer
+    // that’s running the program.
     w.write_u32::<LittleEndian>(one).unwrap();
     println!("{:?}", &w);
 
+    // Single byte types i8 and u8 don’t take an endianness parameter.
     w.write_i8(two).unwrap();
     println!("{:?}", &w);
 
