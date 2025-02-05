@@ -105,18 +105,21 @@ impl ActionKV {
 
     pub fn insert(&mut self, key: &ByteStr, value: &ByteStr) -> std::io::Result<()> {
         let position = self.insert_but_ignore_index(key, value)?;
+        // key.to_vec() converts the &ByteStr to a ByteString.
         self.index.insert(key.to_vec(), position);
-
         Ok(())
     }
 
     pub fn insert_but_ignore_index(&mut self, key: &ByteStr, value: &ByteStr) -> std::io::Result<u64> {
+        // The std::io::BufWriter type batches multiple short write() calls into fewer actual disk operations, resulting in a single one.
+        // This increases throughput while keeping the application code neater.
         let mut f = BufWriter::new(&mut self.f);
 
         let key_len = key.len();
         let val_len = value.len();
         let mut tmp = ByteString::with_capacity(key_len + val_len);
 
+        // Iterating through one collection to populate another is slightly awkward, but gets the job done.
         for byte in key {
             tmp.push(*byte);
         }
