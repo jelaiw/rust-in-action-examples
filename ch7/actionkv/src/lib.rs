@@ -125,6 +125,36 @@ impl ActionKV {
         Ok(kv)
     }
 
+    pub fn find(&mut self, target: &ByteStr) -> std::io::Result<Option<(u64, ByteString)>> {
+        let mut f = BufReader::new(&mut self.f);
+        let mut found: Option<(u64, ByteString)> = None;
+
+        loop {
+            let position = f.seek(SeekFrom::Current(0))?;
+            let maybe_kv = ActionKV::process_record(&mut f);
+            let kv = match maybe_kv {
+                Ok(kv) => kv,
+                Err(err) => {
+                    match err.kind() {
+                        std::io::ErrorKind::UnexpectedEof => {
+                            break;
+                        }
+                        _ => return Err(err),
+                    }
+                }
+            };
+
+            if kv.key == target {
+                found = Some((position, kv.value));
+            }
+
+            // important to keep looping until the end of the file,
+            // in case the key has been overwritten
+        }
+
+        Ok(found)
+    }
+
     pub fn insert(&mut self, key: &ByteStr, value: &ByteStr) -> std::io::Result<()> {
         let position = self.insert_but_ignore_index(key, value)?;
         // key.to_vec() converts the &ByteStr to a ByteString.
@@ -161,5 +191,15 @@ impl ActionKV {
         f.write_all(&mut tmp)?;
 
         Ok(current_position)
+    }
+
+    #[inline]
+    pub fn update(&mut self, key: &ByteStr, value: &ByteStr) -> std::io::Result<()> {
+        self.insert(key, value)
+    }
+
+    #[inline]
+    pub fn delete(&mut self, key: &ByteStr) -> std::io::Result<()> {
+        self.insert(key, b"")
     }
 }
