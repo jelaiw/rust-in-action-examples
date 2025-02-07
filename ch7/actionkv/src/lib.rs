@@ -73,6 +73,10 @@ impl ActionKV {
         })       
     }
 
+    pub fn seek_to_end(&mut self) -> std::io::Result<u64> {
+        self.f.seek(SeekFrom::End(0))
+    }
+
     // ActionKV::load() populates the index of the ActionKV struct, mapping keys to file positions.
     pub fn load(&mut self) -> std::io::Result<()> {
         let mut f = BufReader::new(&mut self.f);
@@ -101,6 +105,13 @@ impl ActionKV {
         }
 
         Ok(())
+    }
+
+    pub fn get_at(&mut self, position: u64) -> std::io::Result<KeyValuePair> {
+        let mut f = BufReader::new(&mut self.f);
+        f.seek(SeekFrom::Start(position))?;
+        let kv = ActionKV::process_record(&mut f)?;
+        Ok(kv)
     }
 
     pub fn insert(&mut self, key: &ByteStr, value: &ByteStr) -> std::io::Result<()> {
