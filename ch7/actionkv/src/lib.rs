@@ -107,6 +107,16 @@ impl ActionKV {
         Ok(())
     }
 
+    pub fn get(&mut self, key: &ByteStr) -> std::io::Result<Option<ByteString>> {
+        let position = match self.index.get(key) {
+            None => return Ok(None),
+            Some(position) => *position
+        };
+
+        let kv = self.get_at(position)?;
+        Ok(Some(kv.value))
+    }
+
     pub fn get_at(&mut self, position: u64) -> std::io::Result<KeyValuePair> {
         let mut f = BufReader::new(&mut self.f);
         f.seek(SeekFrom::Start(position))?;
