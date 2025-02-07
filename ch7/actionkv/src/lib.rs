@@ -107,6 +107,7 @@ impl ActionKV {
         Ok(())
     }
 
+    // Wraps Option within Result to allow for the possibility of an I/O error as well as tolerating missing values.
     pub fn get(&mut self, key: &ByteStr) -> std::io::Result<Option<ByteString>> {
         let position = match self.index.get(key) {
             None => return Ok(None),
