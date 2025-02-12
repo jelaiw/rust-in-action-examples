@@ -10,4 +10,5 @@ fn basic_hash(key: &str) -> u32 {
 
 fn main() {
     println!("0x{:x}", basic_hash("foobar"));
+    println!("0x{:x}", basic_hash(""));
 }
