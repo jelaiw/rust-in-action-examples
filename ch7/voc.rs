@@ -15,6 +15,7 @@ fn main() {
     }
 
     print!("smaller chambers: ");
+    // BTreeMap lets you select a portion of the keys that are iterated through with the range syntax.
     for (_guilders, kamer) in voc.range(0..500_000) {
         print!("{} ", kamer)
     }
