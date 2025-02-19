@@ -1,3 +1,4 @@
+// Although src/lib.rs exists within our project, it’s treated the same as any other crate within the src/bin.rs file.
 use libactionkv::ActionKV;
 
 // The cfg attribute allows Windows users to see the correct file extension in their help documentation.
@@ -33,12 +34,14 @@ fn main() {
     match action {
         "get" => match store.get(key).unwrap() {
             None => eprintln!("{:?} not found", key),
+            // println! needs to use the Debug syntax ({:?}) because [u8] contains arbitrary bytes and doesn’t implement Display.
             Some(value) => println!("{:?}", value),
         },
 
         "delete" => store.delete(key).unwrap(),
 
         "insert" => {
+            // A future update that can be added for compatibility with Rust’s HashMap, where insert returns the old value if it exists.
             let value = maybe_value.expect(&USAGE).as_ref();
             store.insert(key, value).unwrap()
         },
