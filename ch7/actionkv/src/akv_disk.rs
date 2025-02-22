@@ -46,15 +46,21 @@ fn main() {
 
     match action {
         "get" => {
+            // INDEX_KEY is an internal hidden name of the index within the database.
+            // Two unwrap() calls are required because a.index is a HashMap that returns Option, and
+            // values themselves are stored within an Option to facilitate possible future deletes.
             let index_as_bytes = store.get(&INDEX_KEY).unwrap().unwrap();
             let index_decoded = bincode::deserialize(&index_as_bytes);
             let index: HashMap<ByteString, u64> = index_decoded.unwrap();
 
+            // Retrieving a value now involves fetching the index first, then identifying the correct location on disk.
             match index.get(key) {
                 None => eprintln!("{:?} not found", key),
                 Some(&i) => {
                     let kv = store.get_at(i).unwrap();
-                    println!("{:?}", kv.value)
+                    // To print values, we need to use Debug as an [u8] value contains arbitrary bytes.
+                    // NOTE: String::from_utf8_lossy seems more friendly than Debug.
+                    println!("{:?}", String::from_utf8_lossy(&kv.value))
                 }
             }
         },
@@ -65,12 +71,14 @@ fn main() {
             // A future update that can be added for compatibility with Rust’s HashMap, where insert returns the old value if it exists.
             let value = maybe_value.expect(&USAGE).as_ref();
             store.insert(key, value).unwrap();
+            // The index must also be updated whenever the data changes.
             store_index_on_disk(&mut store, INDEX_KEY);
         },
 
         "update" => {
             let value = maybe_value.expect(&USAGE).as_ref();
             store.update(key, value).unwrap();
+            // The index must also be updated whenever the data changes.
             store_index_on_disk(&mut store, INDEX_KEY);
         },
 
