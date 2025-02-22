@@ -35,7 +35,7 @@ fn main() {
         "get" => match store.get(key).unwrap() {
             None => eprintln!("{:?} not found", key),
             // println! needs to use the Debug syntax ({:?}) because [u8] contains arbitrary bytes and doesn’t implement Display.
-            Some(value) => println!("{:?}", value),
+            Some(value) => println!("{:?}", String::from_utf8_lossy(&value)),
         },
 
         "delete" => store.delete(key).unwrap(),
