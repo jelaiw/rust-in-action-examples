@@ -1,3 +1,4 @@
+use std::fmt::Display;
 use rand::{self, seq::SliceRandom, Rng};
 
 #[derive(Debug)]
@@ -16,6 +17,15 @@ struct Human {
 enum Thing {
     Sword,
     Trinket,
+}
+
+impl Display for Thing {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match *self {
+            Thing::Sword => write!(f, "sword"),
+            Thing::Trinket => write!(f, "trinket"),
+        }
+    }
 }
 
 trait Enchanter: std::fmt::Debug {
@@ -77,4 +87,5 @@ fn main() {
     let spellcaster = party.choose(&mut rand::thread_rng()).unwrap();
 
     spellcaster.enchant(&mut it);
+    println!("It is a {}.", it);
 }
