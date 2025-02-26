@@ -56,17 +56,24 @@ impl Enchanter for Human {
     }
 }
 
+impl Enchanter for String {
+    fn competency(&self) -> f64 {
+        0.02 // Can strings cast spells?? :-D
+    }
+}
+
 fn main() {
     let mut it = Thing::Sword;
 
     let d = Dwarf {};
     let e = Elf {};
     let h = Human {};
+    let s = String::from("foobar");
 
     // Although d, e, and h are different types, using the type hint &dyn Enchanter tells the compiler to
     // treat each value as a trait object. These now all have the same type.
     // We can hold members of different types within the same Vec as all these implement the Enchanter trait.
-    let party: Vec<&dyn Enchanter> = vec![&d, &e, &h];
+    let party: Vec<&dyn Enchanter> = vec![&d, &e, &h, &s];
     let spellcaster = party.choose(&mut rand::thread_rng()).unwrap();
 
     spellcaster.enchant(&mut it);
