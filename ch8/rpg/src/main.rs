@@ -63,6 +63,8 @@ fn main() {
     let e = Elf {};
     let h = Human {};
 
+    // Although d, e, and h are different types, using the type hint &dyn Enchanter tells the compiler to
+    // treat each value as a trait object. These now all have the same type.
     // We can hold members of different types within the same Vec as all these implement the Enchanter trait.
     let party: Vec<&dyn Enchanter> = vec![&d, &e, &h];
     let spellcaster = party.choose(&mut rand::thread_rng()).unwrap();
