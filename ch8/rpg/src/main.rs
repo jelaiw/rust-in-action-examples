@@ -23,6 +23,8 @@ trait Enchanter: std::fmt::Debug {
 
     fn enchant(&self, thing: &mut Thing) {
         let probability_of_success = self.competency();
+        // gen_bool() generates a Boolean value, where true occurs in proportion to its argument.
+        // For example, a value of 0.5 returns true 50% of the time.
         let spell_is_successful = rand::thread_rng().gen_bool(probability_of_success);
     
         print!("{:?} mutters incoherently. ", self);
@@ -38,19 +40,19 @@ trait Enchanter: std::fmt::Debug {
 
 impl Enchanter for Dwarf {
     fn competency(&self) -> f64 {
-        0.5
+        0.5 // Dwarves are poor spellcasters, and their spells regularly fail. :-D
     }
 }
 
 impl Enchanter for Elf {
     fn competency(&self) -> f64 {
-        0.95
+        0.95 // Spells cast by elves rarely fail.
     }
 }
 
 impl Enchanter for Human {
     fn competency(&self) -> f64 {
-        0.8
+        0.8 // Humans are proficient at enchanting things. Mistakes are uncommon.
     }
 }
 
@@ -61,6 +63,7 @@ fn main() {
     let e = Elf {};
     let h = Human {};
 
+    // We can hold members of different types within the same Vec as all these implement the Enchanter trait.
     let party: Vec<&dyn Enchanter> = vec![&d, &e, &h];
     let spellcaster = party.choose(&mut rand::thread_rng()).unwrap();
 
