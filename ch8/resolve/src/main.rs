@@ -30,8 +30,13 @@ fn main() {
         // Specifies that this is a DNS query, not a DNS answer.
         // Both have the same representation over the wire, but not in Rust’s type system.
         .set_message_type(MessageType::Query)
-        .add_query(Query::query(domain_name, RecordType::A))
+        // Multiple queries can be included in the same message.
+        .add_query(
+            // The equivalent type for IPv6 addresses is AAAA.
+            Query::query(domain_name, RecordType::A)
+        )
         .set_op_code(OpCode::Query)
+        // Requests that the DNS server asks other DNS servers if it doesn’t know the answer.
         .set_recursion_desired(true);
 
     let mut encoder = BinEncoder::new(&mut request_as_bytes);
