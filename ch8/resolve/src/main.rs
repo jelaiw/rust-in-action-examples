@@ -21,8 +21,12 @@ fn main() {
     let dns_server_raw = app.value_of("dns-server").unwrap();
     let dns_server: SocketAddr = format!("{}:53", dns_server_raw).parse().expect("invalid address");
 
+    // Creates a Vec<T> with length 0 and capacity 512.
     let mut request_as_bytes: Vec<u8> = Vec::with_capacity(512);
+    // Creates a Vec<T> with length 512 and capacity 512.
+    // recv_from() checks that this buffer has sufficient space with length field.
     let mut response_as_bytes: Vec<u8> = vec![0; 512];
+    println!("{} {}", request_as_bytes.len(), response_as_bytes.len());
 
     // Message represents a DNS message, which is a container for queries and other information such as answers.
     let mut msg = Message::new();
