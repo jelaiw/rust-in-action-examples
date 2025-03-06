@@ -24,8 +24,11 @@ fn main() {
     let mut request_as_bytes: Vec<u8> = Vec::with_capacity(512);
     let mut response_as_bytes: Vec<u8> = vec![0; 512];
 
+    // Message represents a DNS message, which is a container for queries and other information such as answers.
     let mut msg = Message::new();
     msg.set_id(rand::random::<u16>())
+        // Specifies that this is a DNS query, not a DNS answer.
+        // Both have the same representation over the wire, but not in Rust’s type system.
         .set_message_type(MessageType::Query)
         .add_query(Query::query(domain_name, RecordType::A))
         .set_op_code(OpCode::Query)
@@ -34,6 +37,7 @@ fn main() {
     let mut encoder = BinEncoder::new(&mut request_as_bytes);
     msg.emit(&mut encoder).unwrap();
 
+    // 0.0.0.0:0 means listen to all addresses on a random port. The OS selects the actual port.
     let localhost = UdpSocket::bind("0.0.0.0:0")
         .expect("cannot bind to local socket");
     let timeout = Duration::from_secs(3);
