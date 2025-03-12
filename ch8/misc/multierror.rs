@@ -3,6 +3,7 @@ use std::net::Ipv6Addr;
 
 fn main() -> Result<(), std::io::Error> {
     // File::open() returns Result<(), std::io::Error>.
+    // Shouldn't File::open() return Result<File, std::io::Error>?
     let _f:File = File::open("foo.txt")?;
 
     // "".parse::<Ipv6Addr>() returns Result<Ipv6Addr, std::net::AddrParseError>.
