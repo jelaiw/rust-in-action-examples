@@ -9,10 +9,12 @@ enum UpstreamError {
 
 impl std::fmt::Display for UpstreamError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        // Implements Display in terms of Debug via the "{:?}" syntax.
         write!(f, "{:?}", self)
     }
 }
 
+// Defers to default method implementations. The compiler will fill in the blanks.
 impl std::error::Error for UpstreamError {}
 
 fn main() -> Result<(), UpstreamError> {
