@@ -4,6 +4,7 @@ use rand::RngCore;
 use std::fmt;
 use std::fmt::Display;
 
+// Uses the newtype pattern to wrap a bare array without any extra overhead.
 struct MacAddress([u8; 6]);
 
 impl Display for MacAddress {
@@ -18,6 +19,7 @@ impl MacAddress {
     fn new() -> MacAddress {
         let mut octets: [u8; 6] = [0; 6];
         rand::thread_rng().fill_bytes(&mut octets);
+        // Sets the MAC address to local and unicast.
         octets[0] |= 0b_0000_0011;
         MacAddress { 0: octets }
     }
