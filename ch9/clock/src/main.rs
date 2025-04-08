@@ -1,5 +1,7 @@
-use chrono::{DateTime, Local};
+use chrono::{DateTime, Local, TimeZone};
 use clap::{App, Arg};
+
+use std::mem::zeroed;
 
 // A struct with no fields is known as a zero-sized type or ZST.
 // It does not occupy any memory in the resulting application and is purely a compile-time construct. 
@@ -11,8 +13,20 @@ impl Clock {
         Local::now()
     }
 
-    fn set() -> ! {
-        unimplemented!()
+    fn set<Tz: TimeZone>(t: DateTime<Tz>) -> () {
+        use libc::{timeval, time_t, suseconds_t};
+        use libc::{settimeofday, timezone};
+
+        let t = t.with_timezone(&Local);
+        let mut u: timeval = unsafe { zeroed() };
+
+        u.tv_sec = t.timestamp() as time_t;
+        u.tv_usec = t.timestamp_subsec_micros() as suseconds_t;
+
+        unsafe {
+            let mock_tz: *const timezone = std::ptr::null();
+            settimeofday(&u as *const timeval, mock_tz);
+        }
     }
 }
 
