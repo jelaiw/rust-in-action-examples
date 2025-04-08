@@ -24,6 +24,8 @@ impl Clock {
         u.tv_usec = t.timestamp_subsec_micros() as suseconds_t;
 
         unsafe {
+            // The timezone parameter of settimeofday() appears to be some sort of historic accident.
+            // Non-null values generate an error.
             let mock_tz: *const timezone = std::ptr::null();
             settimeofday(&u as *const timeval, mock_tz);
         }
