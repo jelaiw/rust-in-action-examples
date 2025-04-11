@@ -86,9 +86,12 @@ fn main() {
 
             Clock::set(t);
 
+            // Deconstructs maybe_error, a Rust type, to convert it into a raw i32 value that’s easy to match.
             let maybe_error = std::io::Error::last_os_error();
             let os_error_code = &maybe_error.raw_os_error();
 
+            // Matching on a raw integer saves importing an enum, but sacrifices type safety.
+            // Production-ready code shouldn’t cheat in this way.
             match os_error_code {
                 Some(0) => (),
                 Some(_) => eprintln!("Unable to set the time: {:?}", maybe_error),
