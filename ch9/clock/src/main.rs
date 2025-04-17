@@ -3,6 +3,27 @@ use clap::{App, Arg};
 
 use std::mem::zeroed;
 
+fn check_time() -> Result<f64, std::io::Error> {
+    const NTP_PORT: u16 = 123;
+
+    let servers = [
+        "time.nist.gov",
+        "time.apple.com",
+        "time.euro.apple.com",
+        "time.google.com",
+        "time2.google.com",
+        "time.windows.com",
+    ];
+
+//    let mut times = Vec::with_capacity(servers.len());
+
+    for &server in servers.iter() {
+        print!("{} =>", server);
+    }
+
+    Ok(0.0)
+}
+
 // A struct with no fields is known as a zero-sized type or ZST.
 // It does not occupy any memory in the resulting application and is purely a compile-time construct. 
 struct Clock;
