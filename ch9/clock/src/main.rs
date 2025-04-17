@@ -10,8 +10,11 @@ fn check_time() -> Result<f64, std::io::Error> {
         "time.nist.gov",
         "time.apple.com",
         "time.euro.apple.com",
+        // Google’s time servers implement leap seconds by expanding the length of a second rather than adding an extra second.
+        // Thus, for one day approximately every 18 months, this server reports a different time than the others.
         "time.google.com",
         "time2.google.com",
+        // At the time of writing, Microsoft’s time server provides a time that’s 15 s ahead of its peers.
         "time.windows.com",
     ];
 
