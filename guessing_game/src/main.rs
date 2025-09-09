@@ -7,9 +7,13 @@ struct Guess {
 
 impl Guess {
     fn new(value: i32) -> Guess {
-        if value < 1 || value > 100 {
-            panic!("Guess value needs to be between 1 and 100, got {}.", value);
+        if value < 1 {
+            panic!("Guess value needs to be greater than 1, got {}.", value);
         }
+        else if value > 100 {
+            panic!("Guess value needs to be less than 100, got {}.", value);
+        }
+
         Guess {
             value: value,
         }
@@ -17,6 +21,17 @@ impl Guess {
 
     fn value(&self) -> i32 {
         self.value
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::Guess;
+
+    #[test]
+    #[should_panic(expected = "less than 100")]
+    fn guess_greater_than_100() {
+        Guess::new(200);
     }
 }
 
