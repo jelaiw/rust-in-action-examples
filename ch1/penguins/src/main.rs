@@ -29,7 +29,7 @@ fn main() {
 
         let name = fields[0];
         // Attempts to parse field as a floating-point number.
-        if let Ok(length) = fields[1].parse::<f32>() {
+        if let Ok(length) = fields[1].parse::<f32>() { // https://doc.rust-lang.org/std/primitive.str.html#method.parse
             println!("{}, {}cm", name, length);
         }
     }
