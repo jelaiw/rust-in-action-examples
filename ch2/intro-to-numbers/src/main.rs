@@ -16,5 +16,8 @@ fn main() {
         42.0_f32, // ..and optional underscores.
     ];
 
+    // Format is a bit of a head scratcher because a width of 2 with '0' as the fill character isn't doing much here.
+    // Maybe :.1 to print 42.0 (the floating point value that was bound) instead of 42?
+    // See https://doc.rust-lang.org/std/fmt/#formatting-parameters.
     println!("{:02}", forty_twos[0]);
 }
