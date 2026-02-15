@@ -3,6 +3,7 @@ fn main() {
     let xyz: (f64, f64, f64) = (0.1, 0.2, 0.3);
 
     println!("abc (f32)");
+    // https://doc.rust-lang.org/std/primitive.f32.html#method.to_bits
     println!("  0.1 + 0.2 = {:x}", (abc.0 + abc.1).to_bits());
     println!("        0.3 = {:x}", abc.2.to_bits());
     println!();
