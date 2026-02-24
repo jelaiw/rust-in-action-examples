@@ -3,6 +3,7 @@ fn main() {
     let desired: f32 = 0.2;
     let absolute_difference = (desired - result).abs();
     println!("{}", absolute_difference);
+    // https://doc.rust-lang.org/std/primitive.f32.html#associatedconstant.EPSILON
     println!("{}", f32::EPSILON);
     assert!(absolute_difference <= f32::EPSILON);
 }
