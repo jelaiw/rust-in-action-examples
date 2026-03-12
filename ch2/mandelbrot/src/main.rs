@@ -1,14 +1,14 @@
-use num::complex::Complex;    // <1>
+use num::complex::Complex;
 
-fn calculate_mandelbrot(      // <2>
+fn calculate_mandelbrot(      // Converts between the output space (a grid of rows and columns) and a range that surrounds the Mandelbrot set (a continuous region near (0,0)).
 
-  max_iters: usize,           // <3>
-  x_min: f64,                 // <4>
-  x_max: f64,                 // <4>
-  y_min: f64,                 // <4>
-  y_max: f64,                 // <4>
-  width: usize,               // <5>
-  height: usize,              // <5>
+  max_iters: usize,           // If a value has not escaped before reaching the maximum number of iterations, it’s considered to be within the Mandelbrot set.
+  x_min: f64,                 // Parameters that specify the space we’re searching for to look for members of the set.
+  x_max: f64,                 
+  y_min: f64,                 
+  y_max: f64,                 
+  width: usize,               // Parameters that represent the size of the output in pixels.
+  height: usize,
   ) -> Vec<Vec<usize>> {
 
   let mut rows: Vec<_> = Vec::with_capacity(width); // <6>
