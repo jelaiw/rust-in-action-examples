@@ -3,24 +3,27 @@ use num::complex::Complex;
 fn calculate_mandelbrot(      // Converts between the output space (a grid of rows and columns) and a range that surrounds the Mandelbrot set (a continuous region near (0,0)).
 
   max_iters: usize,           // If a value has not escaped before reaching the maximum number of iterations, it’s considered to be within the Mandelbrot set.
-  x_min: f64,                 // Parameters that specify the space we’re searching for to look for members of the set.
-  x_max: f64,                 
-  y_min: f64,                 
-  y_max: f64,                 
-  width: usize,               // Parameters that represent the size of the output in pixels.
+  // Parameters that specify the space we’re searching for to look for members of the set.
+  x_min: f64,
+  x_max: f64,
+  y_min: f64,
+  y_max: f64,
+  // Parameters that represent the size of the output in pixels.
+  width: usize,
   height: usize,
   ) -> Vec<Vec<usize>> {
 
-  let mut rows: Vec<_> = Vec::with_capacity(width); // <6>
-  for img_y in 0..height {                          // <7>
+  let mut rows: Vec<_> = Vec::with_capacity(width); // Creates a container to house the data from each row.
+  for img_y in 0..height {                          // Iterates row by row, allowing us to print the output line by line.
 
     let mut row: Vec<usize> = Vec::with_capacity(height);
     for img_x in 0..width {
 
       let x_percent = (img_x as f64 / width as f64);
       let y_percent = (img_y as f64 / height as f64);
-      let cx = x_min + (x_max - x_min) * x_percent; // <8>
-      let cy = y_min + (y_max - y_min) * y_percent; // <8>
+      // Calculates the proportion of the space covered in our output and converts that to points within the search space.
+      let cx = x_min + (x_max - x_min) * x_percent;
+      let cy = y_min + (y_max - y_min) * y_percent;
       let escaped_at = mandelbrot_at_point(cx, cy, max_iters);
       row.push(escaped_at);
     }
@@ -30,21 +33,21 @@ fn calculate_mandelbrot(      // Converts between the output space (a grid of ro
   rows
 }
 
-fn mandelbrot_at_point(   // <9>
+fn mandelbrot_at_point(   // Called at every pixel (e.g., every row and column that’s printed to stdout).
   cx: f64,
   cy: f64,
   max_iters: usize,
   ) -> usize {
-  let mut z = Complex { re: 0.0, im: 0.0 };       // <10>
-  let c = Complex::new(cx, cy);                   // <11>
+  let mut z = Complex { re: 0.0, im: 0.0 };       // Initializes a complex number at the origin with real (re) and imaginary (im) parts at 0.0.
+  let c = Complex::new(cx, cy);                   // Initializes a complex number from the coordinates provided as function arguments.
 
   for i in 0..=max_iters {
-    if z.norm() > 2.0 {                           // <12>
+    if z.norm() > 2.0 {                           // Checks the escape condition and calculates the distance from the origin (0, 0), an absolute value of a complex number.
       return i;
     }
-    z = z * z + c;                                // <13>
+    z = z * z + c;                                // Repeatedly mutates z to check whether c lies within the Mandelbrot set.
   }
-  max_iters                                       // <14>
+  max_iters                                       // As i is no longer in scope, we fall back to max_iters.
 }
 
 fn render_mandelbrot(escape_vals: Vec<Vec<usize>>) {
