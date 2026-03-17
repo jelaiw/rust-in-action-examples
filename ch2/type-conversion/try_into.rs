@@ -1,3 +1,5 @@
+// Not strictly necessary now, see Rust 2021 prelude. Book published in 2021.
+// https://doc.rust-lang.org/std/prelude/index.html
 use std::convert::TryInto;
 
 fn main() {
