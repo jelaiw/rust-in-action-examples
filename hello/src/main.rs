@@ -7,6 +7,7 @@ use std::{
 fn main() {
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
 
+    // https://doc.rust-lang.org/beta/std/net/struct.TcpListener.html#method.incoming
     for stream in listener.incoming() {
         let stream = stream.unwrap();
 
