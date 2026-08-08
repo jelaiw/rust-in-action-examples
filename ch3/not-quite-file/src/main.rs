@@ -39,7 +39,8 @@ fn main() {
     let f2_length = read(&f2, &mut buffer);
     close(&mut f2);
 
-    let text = String::from_utf8_lossy(&buffer);
+    // Converts Vec<u8> to String. Any bytes that are not valid UTF-8 are replaced with �.
+    let text = String::from_utf8_lossy(&buffer); // https://doc.rust-lang.org/std/string/struct.String.html#method.from_utf8_lossy
 
     println!("{:?}", f2);
     println!("{} is {} bytes long", &f2.name, f2_length);
