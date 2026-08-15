@@ -1,6 +1,9 @@
+// https://docs.rs/rand/0.8.0/rand/prelude/
 use rand::prelude::*;
 
 // Helper function that triggers sporadic errors.
+// https://docs.rs/rand/0.8.0/rand/fn.thread_rng.html
+// https://docs.rs/rand/0.8.0/rand/trait.Rng.html#method.gen_ratio
 fn one_in(denominator: u32) -> bool {
     // thread_rng() creates a thread-local random number generator;
     // gen_ratio(n, m) returns a Boolean value with an n/m probability.
