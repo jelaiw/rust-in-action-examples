@@ -7,7 +7,7 @@ use rand::prelude::*;
 fn one_in(denominator: u32) -> bool {
     // thread_rng() creates a thread-local random number generator;
     // gen_ratio(n, m) returns a Boolean value with an n/m probability.
-    thread_rng().gen_ratio(1, denominator)
+    thread_rng().gen_ratio(1, denominator) // https://rust-random.github.io/book/update-0.9.html
 }
 
 #[derive(Debug)]
